@@ -1,0 +1,61 @@
+version: "2"
+linters:
+  default: none
+  enable:
+    - errcheck
+    - funlen
+    - gocognit
+    - gocyclo
+    - govet
+    - ineffassign
+    - nestif
+    - staticcheck
+    - tagliatelle
+    - unused
+  settings:
+    dupl:
+      threshold: 100
+    goconst:
+      min-len: 3
+      min-occurrences: 3
+    gocyclo:
+      min-complexity: 15
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - linters:
+          - dupl
+          - goconst
+          - gosec
+        path: _test\.go
+      - linters:
+          - gosec
+        path: _test\.go
+        text: weak cryptographic primitive
+      - linters:
+          - mnd
+        path: _test\.go
+        text: 'mnd: Magic number'
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+issues:
+  max-issues-per-linter: 50
+  max-same-issues: 3
+formatters:
+  settings:
+    goimports:
+      local-prefixes:
+        - github.com/your-org
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
