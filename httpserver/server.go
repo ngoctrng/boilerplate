@@ -100,7 +100,7 @@ func customHTTPErrorHandler(err error, c echo.Context) {
 
 	// Don't write response if already committed
 	if !c.Response().Committed {
-		err = c.JSON(code, map[string]string{"error": http.StatusText(code)})
+		err = c.JSON(code, map[string]string{"error": message})
 		if err != nil {
 			c.Logger().Error(err)
 		}
