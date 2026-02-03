@@ -50,14 +50,6 @@ jobs:
         uses: actions/download-artifact@v6
         with:
           name: ubuntu-latest-profile
-      - name: download macos-latest-profile
-        uses: actions/download-artifact@v6
-        with:
-          name: macos-latest-profile
-      - name: download windows-latest-profile
-        uses: actions/download-artifact@v6
-        with:
-          name: windows-latest-profile
 
       - name: download artifact (main.breakdown)
         id: download-main-breakdown
@@ -74,7 +66,7 @@ jobs:
         continue-on-error: true # Should fail after coverage comment is posted
         with:
           config: ./.github/.testcoverage.yml
-          profile: ubuntu-latest-profile,macos-latest-profile,windows-latest-profile
+          profile: ubuntu-latest-profile
           git-branch: badges
           git-token: ${{ github.ref_name == 'main' && secrets.GITHUB_TOKEN || '' }}
           breakdown-file-name: ${{ github.ref_name == 'main' && 'main.breakdown' || '' }}
