@@ -1,3 +1,5 @@
+![coverage](https://raw.githubusercontent.com/ngoctrng/boilerplate/badges/.badges/main/coverage.svg)
+
 # Hexagon Go REST API
 
 A Go REST API project following Hexagonal Architecture principles, featuring contact management with HTTP endpoints, PostgreSQL persistence, Sentry error reporting, and comprehensive testing with testcontainers.
