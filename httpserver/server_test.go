@@ -5,13 +5,14 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/ngoctrng/boilerplate/errs"
-	"github.com/ngoctrng/boilerplate/httpserver"
 	"net"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
+
+	"github.com/ngoctrng/boilerplate/errs"
+	"github.com/ngoctrng/boilerplate/httpserver"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -123,61 +124,61 @@ func TestCustomErrorHandler(t *testing.T) {
 			name:               "invalid error returns 400",
 			error:              errs.Errorf(errs.EINVALID, "invalid input"),
 			expectedStatusCode: http.StatusBadRequest,
-			expectedMessage:    "invalid input",
+			expectedMessage:    "Bad Request",
 		},
 		{
 			name:               "not found error returns 404",
 			error:              errs.Errorf(errs.ENOTFOUND, "resource not found"),
 			expectedStatusCode: http.StatusNotFound,
-			expectedMessage:    "resource not found",
+			expectedMessage:    "Not Found",
 		},
 		{
 			name:               "conflict error returns 409",
 			error:              errs.Errorf(errs.ECONFLICT, "resource already exists"),
 			expectedStatusCode: http.StatusConflict,
-			expectedMessage:    "resource already exists",
+			expectedMessage:    "Conflict",
 		},
 		{
 			name:               "unauthorized error returns 401",
 			error:              errs.Errorf(errs.EUNAUTHORIZED, "unauthorized access"),
 			expectedStatusCode: http.StatusUnauthorized,
-			expectedMessage:    "unauthorized access",
+			expectedMessage:    "Unauthorized",
 		},
 		{
 			name:               "not implemented error returns 501",
 			error:              errs.Errorf(errs.ENOTIMPLEMENTED, "feature not implemented"),
 			expectedStatusCode: http.StatusNotImplemented,
-			expectedMessage:    "feature not implemented",
+			expectedMessage:    "Not Implemented",
 		},
 		{
 			name:               "internal error returns 500 with generic message",
 			error:              errs.Errorf(errs.EINTERNAL, "database connection failed"),
 			expectedStatusCode: http.StatusInternalServerError,
-			expectedMessage:    "Internal server error",
+			expectedMessage:    "Internal Server Error",
 		},
 		{
 			name:               "unknown error returns 500 with generic message",
 			error:              errors.New("some random error"),
 			expectedStatusCode: http.StatusInternalServerError,
-			expectedMessage:    "Internal server error",
+			expectedMessage:    "Internal Server Error",
 		},
 		{
 			name:               "standard library error returns 500",
 			error:              fmt.Errorf("wrapped error: %w", errors.New("original error")),
 			expectedStatusCode: http.StatusInternalServerError,
-			expectedMessage:    "Internal server error",
+			expectedMessage:    "Internal Server Error",
 		},
 		{
 			name:               "nil context error returns 500",
 			error:              context.DeadlineExceeded,
 			expectedStatusCode: http.StatusInternalServerError,
-			expectedMessage:    "Internal server error",
+			expectedMessage:    "Internal Server Error",
 		},
 		{
 			name:               "echo http error preserves status code",
 			error:              echo.NewHTTPError(http.StatusForbidden, "forbidden"),
 			expectedStatusCode: http.StatusForbidden,
-			expectedMessage:    "forbidden",
+			expectedMessage:    "Forbidden",
 		},
 	}
 

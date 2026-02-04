@@ -2,10 +2,11 @@ package httpserver
 
 import (
 	"context"
-	"github.com/ngoctrng/boilerplate/contact"
-	"github.com/ngoctrng/boilerplate/errs"
 	"log/slog"
 	"net/http"
+
+	"github.com/ngoctrng/boilerplate/contact"
+	"github.com/ngoctrng/boilerplate/errs"
 
 	sentryecho "github.com/getsentry/sentry-go/echo"
 	"github.com/labstack/echo/v4"
@@ -98,11 +99,8 @@ func customHTTPErrorHandler(err error, c echo.Context) {
 	}
 	slog.Error("HTTP error occurred", "error", err, "code", code, "message", message)
 
-	// Don't write response if already committed
-	if !c.Response().Committed {
-		err = c.JSON(code, map[string]string{"error": message})
-		if err != nil {
-			c.Logger().Error(err)
-		}
+	err = c.JSON(code, map[string]string{"error": http.StatusText(code)})
+	if err != nil {
+		c.Logger().Error(err)
 	}
 }
